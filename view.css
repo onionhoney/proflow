@@ -1,0 +1,11 @@
+#list-container{
+    border: 1px solid;
+    background-color: #eee;
+    min-width: 200px;
+    max-width: 300px;
+}
+  #list-container > li{
+    text-overflow: ellipsis;
+    white-space: pre;
+    overflow: hidden;
+  }

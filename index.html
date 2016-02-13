@@ -11,27 +11,31 @@
       body {
         font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
         font-size: 100%;
+        max-width: 800px;
       }
       #status {
         /* avoid an excessively wide status text */
         white-space: pre;
         text-overflow: ellipsis;
         overflow: hidden;
-        max-width: 400px;
       }
     </style>
-
+    <link rel="stylesheet" type="text/css" href="view.css">
     <!--
       - JavaScript and HTML must be in separate files: see our Content Security
       - Policy documentation[1] for details and explanation.
       -
       - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
      -->
-    <script src="popup.js"></script>
+    <script src="view.js"></script>
   </head>
   <body>
-    <div id="status"></div>
-    <img id="image-result" hidden>
+      <span id="status"> Nothing here.. </span>
+      <ul id="list-container">
+        <li> Hello </li>
+        <li> News about donald trump </li>
+        <li> Here's an especially long one that you won't read. </li>
+      </ul>
   </body>
 </html>
 
