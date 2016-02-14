@@ -36,4 +36,12 @@ $(function(){
         else
             hist.render();
     });
+
+    // Allow user to edit content with comment button
+    $("#list-container").on("click", ".icon-comment", function() {
+        // select the text field
+        $(this).parent().prev().attr('contenteditable', 'true');
+
+        console.log($(this).parent().prev().html());
+    });
 });
