@@ -11,16 +11,28 @@ hist.del = function(entry) {
     delete this.cache[entry.trim()];
 };
 
-function render() {
-    var list = document.getElementById('list-container');
-    list.innerHTML = '';
+function render($list) {
+    $list.innerHTML = '';
 
-    hist.forEach(function renderEntry(entry) {
+    for (var entry in hist.cache) {
+
         var ul = document.createElement('ul');
-        var entry_node = document.createTextNode(entry);
-        // ul.innerHTML = entry;
-        ul.appendChild(entry_node);
 
-        list.appendChild(ul);
-    });
+        var entry_node = document.createElement("span");
+        entry_node.innerHTML = entry;
+        var entry_attr = document.createAttribute("class");
+        entry_attr.value = "entry"
+        entry_node.setAttributeNode(entry_attr);
+
+        var result_node = document.createElement("span");
+        result_node.innerHTML = hist.cache[entry];
+        var result_attr = document.createAttribute("class");
+        result_attr.value = "result";
+        result_node.setAttributeNode(result_attr);
+
+        ul.appendChild(entry_node);
+        ul.appendChild(result_node);
+
+        $list.appendChild(ul);
+    }
 }
