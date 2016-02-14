@@ -37,3 +37,9 @@ JSON/Atom API - Overview (JSON/Atom API): https://developers.google.com/custom-s
 JSON/Atom API Reference - CSE:list: https://developers.google.com/custom-search/json-api/v1/reference/cse/list
 
 JavaScript API Reference: https://developers.google.com/custom-search/docs/js/cselement-reference
+
+
+### Backup Google Search Engine
+cx: 011043985394505284497:hrecjp2k_gc
+API key: AIzaSyD6KI8R3o-bsxC_INyGu07XNQU5e-U_X4A
+
