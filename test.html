@@ -7,8 +7,21 @@
     <script src="history.js"></script>
     <script>
       hist.add("emacs", "rocks");
-      hist.add("vim", "sucks");
+      hist.add(" vi  Improved", "sucks");
+      hist.add("editing macros", "emacs");
+      hist.add("java script", "sucks");
+      hist.add("python   ", "rocks");
+      hist.add("C++", "fastest ever");
+      hist.add("javascript is", "  not java  ");
+      hist.add("vim", "SUCK");
+      hist.del("vim");
       render(document.getElementById("list-container"));
+
+      var li = document.getElementsByClassName("entry");
+      for (var i = 0; i < li.length; ++i) {
+      entry = li[i];
+      entry.innerHTML = entry.innerHTML.concat(": ");
+      }
     </script>
   </body>
 </html>
