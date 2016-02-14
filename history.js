@@ -97,13 +97,13 @@ hist.render = function($list) {
 
         var ul = document.createElement('ul');
 
-        var entry_node = document.createElement("span");
+        var entry_node = document.createElement("div");
         entry_node.innerHTML = entry;
         var entry_attr = document.createAttribute("class");
         entry_attr.value = "entry";
         entry_node.setAttributeNode(entry_attr);
 
-        var result_node = document.createElement("span");
+        var result_node = document.createElement("div");
         result_node.innerHTML = hist.cache[entry];
         var result_attr = document.createAttribute("class");
         result_attr.value = "result";
