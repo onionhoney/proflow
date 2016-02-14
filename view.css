@@ -6,15 +6,21 @@ body {
   min-width: 350px;
   max-width: 350px;
   min-height: 300px;
-  font-family: 'futura', 'Roboto', sans-serif;
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+
 }
 
 #bar-container{
-  margin-left: 2px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #2196F3;
 }
 .bar{
+  text-indent: 10px;
   width: 75%;
   height: 35px;
   margin: 0;
@@ -29,7 +35,6 @@ body {
 
 }
 .bar:focus{
-
 }
 .icon{
   background-color: #2196F3; /* Google Blue */
@@ -38,7 +43,7 @@ body {
   padding: 0;
   border: 1px solid #3079ED;
   height: 35px;
-  width: 32px;
+  width: 35px;
   line-height: 35px;
   font-size: 20px;
   display: inline-block;
@@ -71,7 +76,6 @@ body {
     .result{
       
       font-size: 14px;
-
       max-height: 0;
       padding: 0 10px 0 15px;
       transition: transform 0.5s linear, max-height .3s ease-in, padding-top .3s linear, 
@@ -83,8 +87,26 @@ body {
     }
     .result-active{
       max-height: 100px;
-      padding: 10px 10px 15px 15px;
+      padding: 10px 10px 10px 15px;
       overflow: hidden;
       transform: rotateX(0deg);
     }
-
+    .minimenu {
+      padding: 5px 0 5px 0; 
+    }
+    .minimenu span{
+      height: 20px;
+      width: 30%;
+      font-size:15px;
+      padding-left: 2%;
+      border-left: 1px solid #aaa;
+      font-size: 20px;
+      display: inline-block;
+      vertical-align: bottom;
+      text-align: center;
+    
+    }
+    .minimenu .span-last{
+       border-right: 1px solid #aaa;
+    }
+}    
