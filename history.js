@@ -168,7 +168,7 @@ var Hist = function(){
         result_node.classList.add("result");
 
         var result_text = document.createElement("div");
-        result_text.innejkrHTML = this.cache[entry];
+        result_text.innerHTML = this.cache[entry];
         // for 'readmore' and 'comment' button
         var minimenu_node = document.createElement("div");
         minimenu_node.classList.add("minimenu");
