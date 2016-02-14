@@ -30,23 +30,25 @@ var DEBUG = true;
  *                        *
  **************************/
 
-var Hist = function(){
+var Hist = function() {
     this.histView = true;
-
     this.cache = {};
-    this.init = function(){
-        var localCache = this.cache; 
+
+    this.init = function() {
+        var localCache = this.cache;
+        var localThis = this;
         chrome.storage.sync.get("hist_cache", function(data){
-           for (var item in data.hist_cache){
-               var entry = item, result = data.hist_cache[item];
-               localCache[format(entry)] = result.trim();
-           }
-           console.log("Copied to cache as " , localCache);
+            for (var item in data.hist_cache) {
+                var entry = item, result = data.hist_cache[item];
+                localCache[entry] = result;
+            }
+            console.log("Copied to cache as " , localCache);
+            localThis.render();
         });
     };
 
-    this.saveChanges = function(){
-        var localCache = this.cache; 
+    this.saveChanges = function() {
+        var localCache = this.cache;
         chrome.storage.sync.set({'hist_cache': localCache}, function(){
             console.log('Successfully saved item ', localCache);
         });
@@ -115,7 +117,7 @@ var Hist = function(){
                 console.log(result);
                 this.add(query, result);
                 callback(query, result);
-             }
+            }
             else {
                 // normal search
                 var url = API_BASEURL + encodeURI(query) + "&cx=" + API_CX + "&key=" + API_KEY;
@@ -152,7 +154,7 @@ var Hist = function(){
         query = format(query);
         this.search(query, this.processResult);
     };
-     
+
     /**
      * create node from entry and result
      */
@@ -160,10 +162,12 @@ var Hist = function(){
         var node = document.createElement("div");
         node.classList.add("card");
 
+        // entry
         var entry_node = document.createElement("div");
         entry_node.classList.add("entry");
         entry_node.innerHTML = entry;
 
+        // result
         var result_node = document.createElement("div");
         result_node.classList.add("result");
 
@@ -174,16 +178,17 @@ var Hist = function(){
         minimenu_node.classList.add("minimenu");
         minimenu_node.innerHTML =
             '<span class="icon-readmore"><i class="fa fa-share" ></i> </span>' +
-            '<span class="icon-comment "><i class="fa fa-comment"></i></span>';
+            '<span class="icon-comment "><i class="fa fa-comment"></i></span>' +
+            '';
 
         result_node.appendChild(result_text);
         result_node.appendChild(minimenu_node);
-        
+
         node.appendChild(entry_node);
         node.appendChild(result_node);
 
         return node;
     };
-       
+
     return this;
 };

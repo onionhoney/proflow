@@ -4,8 +4,9 @@ $(function(){
     // Initialize variables
     var $window = $(window);
     var $bar = $(".bar");
-    var hist = Hist(); 
+    var hist = Hist();
     hist.init();
+    // hist.render();
 
     // Keyboard events
     $window.keydown(function (event) {
@@ -44,8 +45,12 @@ $(function(){
     $("#list-container").on("click", ".icon-comment", function() {
         // select the text field (result text)
         $(this).parent().prev().attr('contenteditable', 'true');
+        // console.log($(this).parent().prev().html());
 
-        console.log($(this).parent().prev().html());
+        var entry  = $(this).parent().parent().prev().text();
+        var result = $(this).parent().prev().text();
+        console.log(entry, result);
+        hist.add(entry, result);
     });
 
 });
