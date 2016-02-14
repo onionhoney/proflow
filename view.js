@@ -56,7 +56,6 @@ $(function(){
 
         $(this).next().toggleClass("result-active");
     });
-    
 
     // Toggle history view when user click on history button
     $(".history-icon").on("click", function() {
