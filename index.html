@@ -7,21 +7,6 @@
 <html>
   <head>
     <title>Getting Started Extension's Popup</title>
-    <style>
-      body {
-        font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
-        font-size: 100%;
-        min-width: 200px;
-        max-width: 300px;
-      }
-      #status {
-        /* avoid an excessively wide status text */
-        white-space: pre;
-        text-overflow: ellipsis;
-        overflow: hidden;
-      }
-    </style>
-    <link rel="stylesheet" type="text/css" href="view.css">
     <!--
       - JavaScript and HTML must be in separate files: see our Content Security
       - Policy documentation[1] for details and explanation.
@@ -32,18 +17,44 @@
      <script src="view.js"></script>
      <script src="history.js"></script>
      <script src="./Google_search_API/sample_result.js"></script>
+   
+    <!-- 
+      - Use Google's material design: getmdl.io
+    -->
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+      <link rel="stylesheet" type="text/css" href="view.css">
+      <link rel="stylesheet" type="text/css" href="./bower_components/font-awesome/css/font-awesome.css">
     </head>
+
   <body>
     <div id="bar-container"> 
-      <input type="text" class="bar">
-    </div>
-    <div>
-      <ul id="list-container">
-        <li class="entry"> Hello </li>
-        <li class="result"> News about donald trump </li>
-        <li class="result"> Here's an especially long one that you won't read. </li>
-        <li class="entry"> Can you hear me? </li>
-      </ul>
+       <div class="icon history-icon">
+        <i class="fa fa-history"></i>
+      </div>
+    <input type="text" placeholder="Search..."  class="bar"/>
+       <div class="icon search-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      </div>
+    <div id="list-container">
+      <div class="card">
+        <div class="entry">
+          Hello
+        </div>
+       <div class="result" >
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          Aenan convallis.
+        </div>
+      </div>
+      <div class="card">
+        <div class="entry">
+          How's the Rocket's doing?
+        </div>
+       <div class="result" >
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          Aenan convallis.
+        </div>
+      </div>
     </div>
   </body>
 </html>
