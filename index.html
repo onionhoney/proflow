@@ -12,6 +12,7 @@
         font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
         font-size: 100%;
         min-width: 200px;
+        max-width: 300px;
       }
       #status {
         /* avoid an excessively wide status text */
@@ -27,17 +28,23 @@
       -
       - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
      -->
-    <script src="view.js"></script>
-    <script src="history.js"></script>
-
-  </head>
+     <script src="./bower_components/jquery/dist/jquery.js"></script>
+     <script src="view.js"></script>
+     <script src="history.js"></script>
+     <script src="./Google_search_API/sample_result.js"></script>
+    </head>
   <body>
-      <span id="status"> Nothing here.. </span>
+    <div id="bar-container"> 
+      <input type="text" class="bar">
+    </div>
+    <div>
       <ul id="list-container">
-        <li> Hello </li>
-        <li> News about donald trump </li>
-        <li> Here's an especially long one that you won't read. </li>
+        <li class="entry"> Hello </li>
+        <li class="result"> News about donald trump </li>
+        <li class="result"> Here's an especially long one that you won't read. </li>
+        <li class="entry"> Can you hear me? </li>
       </ul>
+    </div>
   </body>
 </html>
 
