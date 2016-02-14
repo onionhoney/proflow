@@ -21,7 +21,7 @@ function format(string) {
 var API_KEY = "AIzaSyAe0ReD5igVVJFmDMJKHCAOU3nRHT4E2As";
 var API_CX = "011043985394505284497%3A04toexks_gs";
 var API_BASEURL = "https://www.googleapis.com/customsearch/v1?q=";
-var DEBUG = true;
+var DEBUG = false;
 
 
 /**************************
@@ -121,12 +121,13 @@ var Hist = function() {
             else {
                 // normal search
                 var url = API_BASEURL + encodeURI(query) + "&cx=" + API_CX + "&key=" + API_KEY;
+                var localThis = this;
                 $.get(url, function(data) {
                     // console.log(data);
                     // result is in the first entry
                     result = data.items[0].snippet;
                     console.log(result);
-                    this.add(query, result);
+                    localThis.add(query, result);
                     callback(query, result);
                 });
             }
