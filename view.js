@@ -36,7 +36,7 @@ $(function(){
     $window.keydown(function (event) {
         // Auto-focus the bar
         if (!(event.ctrlKey || event.metaKey || event.altKey)) {
-            $bar.focus();
+            //$bar.focus();
         }
         // When the user hits ENTER, launch search
         if (event.which === 13) {
@@ -56,6 +56,7 @@ $(function(){
 
         $(this).next().toggleClass("result-active");
     });
+    
 
     // Toggle history view when user click on history button
     $(".history-icon").on("click", function() {
