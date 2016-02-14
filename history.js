@@ -39,6 +39,39 @@ hist.del = function(entry) {
     delete this.cache[format(entry)];
 };
 
+/**
+ * render history into $list
+ *
+ * first clear all entries in the node given,
+ * then append child to node in alphabetical order
+ */
+hist.render = function($list) {
+    $list.innerHTML = '';
+
+    entries = Object.keys(hist.cache);
+    entries.sort();
+    entries.forEach(function (entry) {
+
+        var hist_div = document.createElement('div');
+
+        var entry_node = document.createElement("div");
+        entry_node.innerHTML = entry;
+        var entry_attr = document.createAttribute("class");
+        entry_attr.value = "entry";
+        entry_node.setAttributeNode(entry_attr);
+
+        var result_node = document.createElement("div");
+        result_node.innerHTML = hist.cache[entry];
+        var result_attr = document.createAttribute("class");
+        result_attr.value = "result";
+        result_node.setAttributeNode(result_attr);
+
+        hist_div.appendChild(entry_node);
+        hist_div.appendChild(result_node);
+
+        $list.appendChild(hist_div);
+    });
+};
 
 /**
  * returns corresponding query result
@@ -81,51 +114,14 @@ hist.search = function(query) {
     return result;
 };
 
-
 /**
- * render history into $list
- *
- * first clear all entries in the node given,
- * then append child to node in alphabetical order
- */
-hist.render = function($list) {
-    $list.innerHTML = '';
-
-    entries = Object.keys(hist.cache);
-    entries.sort();
-    entries.forEach(function (entry) {
-
-        var ul = document.createElement('ul');
-
-        var entry_node = document.createElement("div");
-        entry_node.innerHTML = entry;
-        var entry_attr = document.createAttribute("class");
-        entry_attr.value = "entry";
-        entry_node.setAttributeNode(entry_attr);
-
-        var result_node = document.createElement("div");
-        result_node.innerHTML = hist.cache[entry];
-        var result_attr = document.createAttribute("class");
-        result_attr.value = "result";
-        result_node.setAttributeNode(result_attr);
-
-        ul.appendChild(entry_node);
-        ul.appendChild(result_node);
-
-        $list.appendChild(ul);
-    });
-};
-
-
-/**
- * do search and present in history view
+ * do search and render history view
  */
 hist.doSearch = function(query) {
     query = format(query);
     hist.search(query);
 
-    var $list = $("#list-container");
-
-    // TODO: try make it happen only when history button is clicked
-    hist.render($list);
+    // hist is only rendered when history button is clicked
+    // var $list = $("#list-container");
+    // hist.render($list);
 };
