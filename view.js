@@ -43,11 +43,18 @@ $(function(){
             hist.render();
     });
 
+    $("#list-container").on("click", ".icon-readmore", function() {
+        var entry = $(this).parent().parent().prev().children(".entry-text").text();
+        var newURL = "https://www.google.com/#q=" + encodeURI(entry);
+        console.log(newURL);
+        chrome.tabs.create({url: newURL});
+    });
+
     // Allow user to edit content with comment button
     $("#list-container").on("click", ".icon-comment", function() {
         // select the text field (result text)
         var $resultText = $(this).parent().prev();
-        
+
         $resultText.attr('contenteditable', function(index, attr){
             return attr === 'true' ? 'false' : 'true';
         });
