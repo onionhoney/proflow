@@ -70,6 +70,7 @@ $(function(){
        // e.preventDefault();
         var entry = $(this).prev().text();
         hist.del(entry);
-        $(this).parent().parent().remove();
+        var $card = $(this).parent().parent();
+        $card.slideUp("normal", function() {$card.remove();});
     });
 });
