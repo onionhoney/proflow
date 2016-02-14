@@ -37,7 +37,7 @@ var Hist = function() {
     this.init = function() {
         var localCache = this.cache;
         var localThis = this;
-        chrome.storage.sync.get("hist_cache", function(data){
+        chrome.storage.sync.get("hist_cache", function(data) {
             for (var item in data.hist_cache) {
                 var entry = item, result = data.hist_cache[item];
                 localCache[entry] = result;
@@ -49,7 +49,7 @@ var Hist = function() {
 
     this.saveChanges = function() {
         var localCache = this.cache;
-        chrome.storage.sync.set({'hist_cache': localCache}, function(){
+        chrome.storage.sync.set({'hist_cache': localCache}, function() {
             console.log('Successfully saved item ', localCache);
         });
     };
@@ -188,8 +188,7 @@ var Hist = function() {
         minimenu_node.classList.add("minimenu");
         minimenu_node.innerHTML =
             '<span class="icon-readmore"><i class="fa fa-share" ></i> </span>' +
-            '<span class="icon-comment span-last "><i class="fa fa-comment"></i></span>' +
-            '';
+            '<span class="icon-comment span-last "><i class="fa fa-comment"></i></span>';
 
         result_node.appendChild(result_text);
         result_node.appendChild(minimenu_node);

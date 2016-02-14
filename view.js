@@ -6,14 +6,13 @@ $(function(){
     var $bar = $(".bar");
     var hist = Hist();
     hist.init();
-    // hist.render();
 
     // Keyboard events
     $window.keydown(function (event) {
         // Auto-focus the bar
-        if (!(event.ctrlKey || event.metaKey || event.altKey)) {
+        // if (!(event.ctrlKey || event.metaKey || event.altKey)) {
             //$bar.focus();
-        }
+        // }
         // When the user hits ENTER, launch search
         if (event.which === 13) {
             if ($bar.is(":focus")){
@@ -50,9 +49,9 @@ $(function(){
 
     $("#list-container").on("click", ".icon-readmore", function() {
         var entry = $(this).parent().parent().prev().children(".entry-text").text();
-        var newURL = "https://www.google.com/#q=" + encodeURI(entry);
-        console.log(newURL);
-        chrome.tabs.create({url: newURL});
+        var searchURL = "https://www.google.com/#q=" + encodeURI(entry);
+        console.log(searchURL);
+        chrome.tabs.create({url: searchURL});
     });
 
     // Allow user to edit content with comment button
@@ -60,13 +59,13 @@ $(function(){
         // select the text field (result text)
         var $resultText = $(this).parent().prev();
 
-        $resultText.attr('contenteditable', function(index, attr){
+        $resultText.attr('contenteditable', function(index, attr) {
             return attr === 'true' ? 'false' : 'true';
         });
-        if ($resultText.is(":focus")){
+        if ($resultText.is(":focus")) {
             $resultText.blur();
         }
-        else{
+        else {
             $resultText.focus();
         }
         $resultText.parent().parent().toggleClass("editing");
@@ -83,6 +82,8 @@ $(function(){
         var entry = $(this).prev().text();
         hist.del(entry);
         var $card = $(this).parent().parent();
-        $card.slideUp("normal", function() {$card.remove();});
+        $card.slideUp("normal", function() {
+            $card.remove();
+        });
     });
 });
