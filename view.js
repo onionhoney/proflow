@@ -26,6 +26,7 @@ $(function(){
 
     // Toggle result when user click on an entry
     $("#list-container").on("click", ".entry", function() {
+        // get corresponding result
         $(this).next().toggleClass("result-active");
     });
 
@@ -39,7 +40,7 @@ $(function(){
 
     // Allow user to edit content with comment button
     $("#list-container").on("click", ".icon-comment", function() {
-        // select the text field
+        // select the text field (result text)
         $(this).parent().prev().attr('contenteditable', 'true');
 
         console.log($(this).parent().prev().html());
