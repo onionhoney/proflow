@@ -24,6 +24,11 @@ $(function(){
 
     // Click events
 
+    // whenever bar gets focus
+    $(".bar:text").focus(function() {
+        $(this).select();
+    });
+
     // Make search when search button is clicked
     $(".search-icon").on("click", function() {
         hist.doSearch($bar.val());
