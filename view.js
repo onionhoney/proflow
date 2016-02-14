@@ -47,7 +47,7 @@ $(function(){
         $(this).parent().prev().attr('contenteditable', 'true');
         // console.log($(this).parent().prev().html());
 
-        var entry  = $(this).parent().parent().prev().text();
+        var entry  = $(this).parent().parent().prev().children(".entry-text").text();
         var result = $(this).parent().prev().text();
         console.log(entry, result);
         hist.add(entry, result);

@@ -165,7 +165,16 @@ var Hist = function() {
         // entry
         var entry_node = document.createElement("div");
         entry_node.classList.add("entry");
-        entry_node.innerHTML = entry;
+
+        var entry_text = document.createElement("span");
+        entry_text.classList.add("entry-text");
+        entry_text.innerHTML = entry;
+        var icon_remove = document.createElement("span");
+        icon_remove.classList.add("icon-remove");
+        icon_remove.innerHTML = '<i class="fa fa-remove" ></i>';
+
+        entry_node.appendChild(entry_text);
+        entry_node.appendChild(icon_remove);
 
         // result
         var result_node = document.createElement("div");
