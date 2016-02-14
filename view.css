@@ -86,16 +86,16 @@ body {
     }
     .result-active{
       max-height: 100px;
-      padding: 10px 10px 10px 15px;
+      padding: 0px 10px 10px 15px;
       overflow: hidden;
       transform: rotateX(0deg);
     }
     .minimenu {
-      padding: 5px 0 5px 0; 
+      padding: 5px 0 5px 0;
     }
     .minimenu span{
       height: 20px;
-      width: 30%;
+      width: 47%;
       font-size:15px;
       padding-left: 2%;
       border-left: 1px solid #aaa;
@@ -103,9 +103,28 @@ body {
       display: inline-block;
       vertical-align: bottom;
       text-align: center;
-    
     }
     .minimenu .span-last{
        border-right: 1px solid #aaa;
     }
-}    
+
+    .entry{
+        display: table;
+    }
+    .entry span{
+        display: table-cell;
+    }
+    .entry-text{
+        user-select: none;
+    }
+    .icon-remove{
+        text-align: center;
+        color: #333;
+        vertical-align: middle;
+    }
+    .icon-remove i{
+        font-size: 22px;
+        margin: 0 3px 5px 8px;
+    }
+
+
