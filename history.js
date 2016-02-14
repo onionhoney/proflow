@@ -13,6 +13,7 @@ hist.del = function(entry) {
 
 function render() {
     var list = document.getElementById('list-container');
+    list.innerHTML = '';
 
     hist.forEach(function renderEntry(entry) {
         var ul = document.createElement('ul');
