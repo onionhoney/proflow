@@ -2,7 +2,6 @@
 
 body {
   line-height: 1.2;
-  font-size: 100%;
   min-width: 350px;
   max-width: 350px;
   min-height: 300px;
@@ -28,13 +27,13 @@ body {
   font-size: 1.1rem;
   font-family: "Futura";
   font-weight: 300;
-  outline:none;
   border: solid 1px #d9d9d9;
   border-top: solid 1px #c0c0c0;
   border-right: none;
 
 }
 .bar:focus{
+    outline: none;
 }
 .icon{
   background-color: #2196F3; /* Google Blue */
@@ -64,13 +63,24 @@ body {
     border-radius: 2px;
     box-sizing: border-box;
     margin-bottom: 2px;
+    display: list-item;
   }
+  .card{
+      transition: background-color .7s ease-in-out;
+      background-color: inherit;
+      white-space: pre-wrap;
+  }
+
+  .editing{
+        background-color:#FFFFE3;
+    }
     .entry{
-      padding: 10px;
+      padding: 3px;
       padding-left: 15px;
       font-size: 16px;
       font-weight: 400;
       font-family: 'Roboto';
+      
     }
     .result{
       
@@ -83,18 +93,25 @@ body {
       transform-origin: top;
       transform-style: preserve-3d;
       perspective: 1000px;
+      background-color:inherit;
     }
+    
+    .result-text{
+        outline: none;
+        padding-bottom: 5px;
+    }
+
     .result-active{
-      max-height: 100px;
-      padding: 0px 10px 10px 15px;
+      max-height: 200px;
+      padding: 5px 10px 10px 15px;
       overflow: hidden;
       transform: rotateX(0deg);
     }
     .minimenu {
-      padding: 5px 0 5px 0;
+      padding: 5px 0 0 0;
     }
     .minimenu span{
-      height: 20px;
+      height: 25px;
       width: 47%;
       font-size:15px;
       padding-left: 2%;
@@ -116,9 +133,17 @@ body {
     }
     .entry-text{
         user-select: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+        width: 100%;
     }
     .icon-remove{
-        text-align: center;
+        text-align: right;
+        padding-right: 10px;
         color: #333;
         vertical-align: middle;
     }

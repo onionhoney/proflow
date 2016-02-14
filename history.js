@@ -181,13 +181,14 @@ var Hist = function() {
         result_node.classList.add("result");
 
         var result_text = document.createElement("div");
+        result_text.classList.add("result-text");
         result_text.innerHTML = this.cache[entry];
         // for 'readmore' and 'comment' button
         var minimenu_node = document.createElement("div");
         minimenu_node.classList.add("minimenu");
         minimenu_node.innerHTML =
             '<span class="icon-readmore"><i class="fa fa-share" ></i> </span>' +
-            '<span class="icon-comment "><i class="fa fa-comment"></i></span>' +
+            '<span class="icon-comment span-last "><i class="fa fa-comment"></i></span>' +
             '';
 
         result_node.appendChild(result_text);

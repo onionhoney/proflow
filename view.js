@@ -16,7 +16,9 @@ $(function(){
         }
         // When the user hits ENTER, launch search
         if (event.which === 13) {
-            hist.doSearch($bar.val());
+            if ($bar.is(":focus")){
+                hist.doSearch($bar.val());
+            }
         }
     });
 
@@ -44,13 +46,30 @@ $(function(){
     // Allow user to edit content with comment button
     $("#list-container").on("click", ".icon-comment", function() {
         // select the text field (result text)
-        $(this).parent().prev().attr('contenteditable', 'true');
+        var $resultText = $(this).parent().prev();
+        
+        $resultText.attr('contenteditable', function(index, attr){
+            return attr === 'true' ? 'false' : 'true';
+        });
+        if ($resultText.is(":focus")){
+            $resultText.blur();
+        }
+        else{
+            $resultText.focus();
+        }
+        $resultText.parent().parent().toggleClass("editing");
         // console.log($(this).parent().prev().html());
 
         var entry  = $(this).parent().parent().prev().children(".entry-text").text();
-        var result = $(this).parent().prev().text();
+        var result = $(this).parent().prev()[0].innerHTML;
         console.log(entry, result);
         hist.add(entry, result);
     });
 
+    $("#list-container").on("click", ".icon-remove", function(e){
+       // e.preventDefault();
+        var entry = $(this).prev().text();
+        hist.del(entry);
+        $(this).parent().parent().remove();
+    });
 });
