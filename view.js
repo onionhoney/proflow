@@ -4,7 +4,9 @@ $(function(){
     // Initialize variables
     var $window = $(window);
     var $bar = $(".bar");
-    
+    var hist = Hist(); 
+    hist.init();
+
     // Keyboard events
     $window.keydown(function (event) {
         // Auto-focus the bar
@@ -44,4 +46,5 @@ $(function(){
 
         console.log($(this).parent().prev().html());
     });
+
 });
