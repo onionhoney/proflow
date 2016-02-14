@@ -1,31 +1,3 @@
-var API_KEY = "AIzaSyAe0ReD5igVVJFmDMJKHCAOU3nRHT4E2As";
-var CX = "011043985394505284497%3A04toexks_gs"; 
-
-
-function doSearch(){
-        var query = $bar.val();
-        var url = "https://www.googleapis.com/customsearch/v1?q=" + encodeURI(query);
-        url += "&cx=" + CX + "&key=" + API_KEY;
-        
-        
-        if (DEBUG){
-            var data = googleAPISampleJSON;
-            console.log(data);
-            var firstEntry = data.items[0];
-            var message = firstEntry.snippet;
-            hist.add(query, message); 
-            hist.render($list);
-        }
-        else{
-            $.get(url, function(data){
-                console.log(data);
-            });
-        }
-    }
-
-
-
-
 
 var hist = {};
 hist.cache = {};
@@ -40,22 +12,22 @@ hist.del = function(entry) {
     delete this.cache[entry];
 };
 
-hist.render = function($list) {
+function render($list) {
     $list.innerHTML = '';
 
-    entries = Object.keys(this.cache);
+    entries = Object.keys(hist.cache);
     entries.sort();
     entries.forEach(function (entry) {
 
-        var ul = document.createElement('li');
+        var ul = document.createElement('ul');
 
-        var entry_node = document.createElement("div");
+        var entry_node = document.createElement("span");
         entry_node.innerHTML = entry;
         var entry_attr = document.createAttribute("class");
         entry_attr.value = "entry";
         entry_node.setAttributeNode(entry_attr);
 
-        var result_node = document.createElement("div");
+        var result_node = document.createElement("span");
         result_node.innerHTML = hist.cache[entry];
         var result_attr = document.createAttribute("class");
         result_attr.value = "result";
@@ -66,4 +38,4 @@ hist.render = function($list) {
 
         $list.appendChild(ul);
     });
-};
+}
