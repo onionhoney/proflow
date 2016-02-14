@@ -16,40 +16,6 @@ function format(string) {
     }).join(' ');
 }
 
-/**
- * create node from entry and result
- */
-function gen_node(entry, result) {
-    var node = document.createElement("div");
-    node.classList.add("card");
-
-    var entry_node = document.createElement("div");
-    entry_node.classList.add("entry");
-    entry_node.innerHTML = entry;
-
-    var result_node = document.createElement("div");
-    result_node.classList.add("result");
-    result_node.innerHTML = hist.cache[entry];
-
-    // for 'readmore' and 'comment' button
-    var minimenu_node = document.createElement("div");
-    minimenu_node.classList.add("minimenu");
-    // var readmore_node = document.createElement("span");
-    // readmore_node.classList.add("icon-readmore");
-    // var comment_node = document.createElement("span");
-    // comment_node.classList.add("icon-comment");
-    // minimenu_node.appendChild(readmore_node, comment_node);
-    minimenu_node.innerHTML =
-        '<span class="icon-readmore"><i class="fa fa-share" ></i> </span>' +
-        '<span class="icon-comment "><i class="fa fa-comment"></i></span>'
-
-    node.appendChild(entry_node);
-    node.appendChild(result_node);
-    node.appendChild(minimenu_node);
-
-    return node;
-}
-
 
 // GOOGLE API
 var API_KEY = "AIzaSyAe0ReD5igVVJFmDMJKHCAOU3nRHT4E2As";
@@ -64,105 +30,160 @@ var DEBUG = true;
  *                        *
  **************************/
 
-var hist = {};
-hist.histView = true;
-hist.cache = {};
+var Hist = function(){
+    this.histView = true;
 
-hist.add = function(entry, result) {
-    this.cache[format(entry)] = result.trim();
-};
+    this.cache = {};
+    this.init = function(){
+        var localCache = this.cache; 
+        chrome.storage.sync.get("hist_cache", function(data){
+           for (var item in data.hist_cache){
+               var entry = item, result = data.hist_cache[item];
+               localCache[format(entry)] = result.trim();
+           }
+           console.log("Copied to cache as " , localCache);
+        });
+    };
 
-hist.del = function(entry) {
-    delete this.cache[format(entry)];
-};
+    this.saveChanges = function(){
+        var localCache = this.cache; 
+        chrome.storage.sync.set({'hist_cache': localCache}, function(){
+            console.log('Successfully saved item ', localCache);
+        });
+    };
 
-hist.unrender = function() {
-    var list = document.getElementById("list-container");
-    while (list.firstChild) {
-        list.removeChild(list.firstChild);
-    }
-    hist.histView = false;
-};
+    this.add = function(entry, result) {
+        this.cache[format(entry)] = result.trim();
+        this.saveChanges();
+    };
 
-/**
- * render history into list
- *
- * first clear all entries in the node given,
- * then append child to node in alphabetical order
- */
-hist.render = function() {
-    hist.unrender();
-    var list = document.getElementById("list-container");
-    entries = Object.keys(hist.cache);
-    entries.sort();
-    entries.forEach(function (query) {
-        var hist_div = gen_node(query, hist.cache[query]);
-        list.appendChild(hist_div);
-    });
-    hist.histView = true;
-};
+    this.del = function(entry) {
+        delete this.cache[format(entry)];
+        this.saveChanges();
+    };
 
-/**
- * returns corresponding query result
- *
- * background handling of query,
- * not intended as public hist interface
- */
-hist.search = function(query, callback) {
-    query = format(query);
-    var result;
+    this.unrender = function() {
+        var list = document.getElementById("list-container");
+        while (list.firstChild) {
+            list.removeChild(list.firstChild);
+        }
+        this.histView = false;
+    };
 
-    if (query in hist.cache) {
-        // cached result
-        result = hist.cache[query];
-        callback(query, result);
-    }
-    else {
-        // new search and cache result
-        if (DEBUG) {
-            // debug mode
-            var data = googleAPISampleJSON;
-            // console.log(data);
-            // var firstEntry = data.items[0];
-            // result is in the first entry
-            result = data.items[0].snippet;
-            console.log(result);
-            hist.add(query, result);
+    /**
+     * render history into list
+     *
+     * first clear all entries in the node given,
+     * then append child to node in alphabetical order
+     */
+    this.render = function() {
+        this.unrender();
+        var list = document.getElementById("list-container");
+        var entries = Object.keys(this.cache);
+        entries.sort();
+        entries.forEach(function (query) {
+            var hist_div = gen_node(query, this.cache[query]);
+            list.appendChild(hist_div);
+        });
+        this.histView = true;
+    };
+
+    /**
+     * returns corresponding query result
+     *
+     * background handling of query,
+     * not intended as public hist interface
+     */
+    this.search = function(query, callback) {
+        query = format(query);
+        var result;
+
+        if (query in this.cache) {
+            // cached result
+            result = this.cache[query];
             callback(query, result);
-         }
+        }
         else {
-            // normal search
-            var url = API_BASEURL + encodeURI(query) + "&cx=" + API_CX + "&key=" + API_KEY;
-            $.get(url, function(data) {
+            // new search and cache result
+            if (DEBUG) {
+                // debug mode
+                var data = googleAPISampleJSON;
                 // console.log(data);
+                // var firstEntry = data.items[0];
                 // result is in the first entry
                 result = data.items[0].snippet;
                 console.log(result);
-                hist.add(query, result);
+                this.add(query, result);
                 callback(query, result);
-            });
+             }
+            else {
+                // normal search
+                var url = API_BASEURL + encodeURI(query) + "&cx=" + API_CX + "&key=" + API_KEY;
+                $.get(url, function(data) {
+                    // console.log(data);
+                    // result is in the first entry
+                    result = data.items[0].snippet;
+                    console.log(result);
+                    this.add(query, result);
+                    callback(query, result);
+                });
+            }
         }
-    }
-};
+    };
 
-/**
- * callback function passed into search
- */
-hist.processResult = function(query, result) {
-    // destroy history view
-    hist.unrender();
-    // present current result
-    var node = gen_node(query, result);
-    $(node).find(".result").toggleClass("result-active");
-    var list = document.getElementById("list-container");
-    list.appendChild(node);
-    hist.histView = false;
-};
+    /**
+     * callback function passed into search
+     */
+    this.processResult = function(query, result) {
+        // destroy history view
+        this.unrender();
+        // present current result
+        var node = gen_node(query, result);
+        $(node).find(".result").toggleClass("result-active");
+        var list = document.getElementById("list-container");
+        list.appendChild(node);
+        this.histView = false;
+    };
 
-/**
- * do search and hide history view and present current search result
- */
-hist.doSearch = function(query) {
-    query = format(query);
-    hist.search(query, hist.processResult);
+    /**
+     * do search and hide history view and present current search result
+     */
+    this.doSearch = function(query) {
+        query = format(query);
+        this.search(query, this.processResult);
+    };
+     
+    /**
+     * create node from entry and result
+     */
+    this.gen_node = function(entry, result) {
+        var node = document.createElement("div");
+        node.classList.add("card");
+
+        var entry_node = document.createElement("div");
+        entry_node.classList.add("entry");
+        entry_node.innerHTML = entry;
+
+        var result_node = document.createElement("div");
+        result_node.classList.add("result");
+
+        var result_text = document.createElement("div");
+        result_text.innejkrHTML = this.cache[entry];
+        // for 'readmore' and 'comment' button
+        var minimenu_node = document.createElement("div");
+        minimenu_node.classList.add("minimenu");
+        minimenu_node.innerHTML =
+            '<span class="icon-readmore"><i class="fa fa-share" ></i> </span>' +
+            '<span class="icon-comment "><i class="fa fa-comment"></i></span>';
+
+        result_node.appendChild(result_text);
+        result_node.appendChild(minimenu_node);
+        
+        node.appendChild(entry_node);
+        node.appendChild(result_node);
+
+        return node;
+    };
+       
+    return this;
 };
