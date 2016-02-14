@@ -109,10 +109,11 @@ hist.search = function(query, callback) {
         if (DEBUG) {
             // debug mode
             var data = googleAPISampleJSON;
-            console.log(data);
+            // console.log(data);
             // var firstEntry = data.items[0];
             // result is in the first entry
             result = data.items[0].snippet;
+            console.log(result);
             hist.add(query, result);
             callback(query, result);
          }
@@ -120,23 +121,21 @@ hist.search = function(query, callback) {
             // normal search
             var url = API_BASEURL + encodeURI(query) + "&cx=" + API_CX + "&key=" + API_KEY;
             $.get(url, function(data) {
-                console.log(data);
+                // console.log(data);
                 // result is in the first entry
                 result = data.items[0].snippet;
+                console.log(result);
                 hist.add(query, result);
                 callback(query, result);
             });
         }
-
-        // cache result
     }
-
 };
 
 /**
- * do search and hide history view and present current search result
+ * callback function passed into search
  */
-hist.processResult = function(query, result){
+hist.processResult = function(query, result) {
     // destroy history view
     hist.unrender();
     // present current result
@@ -147,6 +146,9 @@ hist.processResult = function(query, result){
     hist.histView = false;
 };
 
+/**
+ * do search and hide history view and present current search result
+ */
 hist.doSearch = function(query) {
     query = format(query);
     hist.search(query, hist.processResult);

@@ -1,19 +1,10 @@
 $(function(){
     // Constants
     // TODO: set colors based on hash
-    var DEBUG = true;
     // Initialize variables
     var $window = $(window);
     var $bar = $(".bar");
 
-<<<<<<< HEAD
-    // doesn't work, has to acquire dom dynamically
-    // var $list = $("#list-container");
-    // hist.init($list);
-
-
-=======
->>>>>>> 2a0dbb71246ecb891e1ffe8c7faf9089e204c794
     // Keyboard events
     $window.keydown(function (event) {
         // Auto-focus the bar
