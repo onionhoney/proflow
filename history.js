@@ -1,6 +1,9 @@
-/**
+
+/*
  * ****** HELPER FUNCTION ******
- *
+ */
+
+/**
  * format the search string to make each
  * word is capitalized
  *
@@ -12,6 +15,27 @@ function format(string) {
     return trim_split.map(function(word) {
         return word.charAt(0).toUpperCase() + word.slice(1);
     }).join(' ');
+}
+
+/**
+ * create node from entry and result
+ */
+function gen_node(entry, result) {
+    var node = document.createElement("div");
+    node.classList.add("card");
+
+    var entry_node = document.createElement("div");
+    entry_node.classList.add("entry");
+    entry_node.innerHTML = entry;
+
+    var result_node = document.createElement("div");
+    result_node.classList.add("result");
+    result_node.innerHTML = hist.cache[entry];
+
+    node.appendChild(entry_node);
+    node.appendChild(result_node);
+
+    return node;
 }
 
 
@@ -29,6 +53,7 @@ var DEBUG = true;
  **************************/
 
 var hist = {};
+hist.histView = true;
 hist.cache = {};
 
 hist.add = function(entry, result) {
@@ -39,38 +64,50 @@ hist.del = function(entry) {
     delete this.cache[format(entry)];
 };
 
+hist.unrender = function() {
+    var list = document.getElementById("list-container");
+    while (list.firstChild) {
+        list.removeChild(list.firstChild);
+    }
+    hist.histView = false;
+};
+
 /**
- * render history into $list
+ * render history into list
  *
  * first clear all entries in the node given,
  * then append child to node in alphabetical order
  */
-hist.render = function($list) {
-    $list.innerHTML = '';
+hist.render = function() {
+    hist.unrender();
+    var list = document.getElementById("list-container");
 
     entries = Object.keys(hist.cache);
     entries.sort();
-    entries.forEach(function (entry) {
+    entries.forEach(function (query) {
 
-        var hist_div = document.createElement('div');
+        // var hist_div = document.createElement('div');
 
-        var entry_node = document.createElement("div");
-        entry_node.innerHTML = entry;
-        var entry_attr = document.createAttribute("class");
-        entry_attr.value = "entry";
-        entry_node.setAttributeNode(entry_attr);
+        // var entry_node = document.createElement("div");
+        // entry_node.innerHTML = entry;
+        // var entry_attr = document.createAttribute("class");
+        // entry_attr.value = "entry";
+        // entry_node.setAttributeNode(entry_attr);
 
-        var result_node = document.createElement("div");
-        result_node.innerHTML = hist.cache[entry];
-        var result_attr = document.createAttribute("class");
-        result_attr.value = "result";
-        result_node.setAttributeNode(result_attr);
+        // var result_node = document.createElement("div");
+        // result_node.innerHTML = hist.cache[entry];
+        // var result_attr = document.createAttribute("class");
+        // result_attr.value = "result";
+        // result_node.setAttributeNode(result_attr);
 
-        hist_div.appendChild(entry_node);
-        hist_div.appendChild(result_node);
+        // hist_div.appendChild(entry_node);
+        // hist_div.appendChild(result_node);
 
-        $list.appendChild(hist_div);
+        var hist_div = gen_node(query, hist.cache[query]);
+        list.appendChild(hist_div);
     });
+
+    hist.histView = true;
 };
 
 /**
@@ -115,13 +152,20 @@ hist.search = function(query) {
 };
 
 /**
- * do search and render history view
+ * do search and hide history view and present current search result
  */
 hist.doSearch = function(query) {
     query = format(query);
-    hist.search(query);
+    var result = hist.search(query);
 
-    // hist is only rendered when history button is clicked
-    // var $list = $("#list-container");
-    // hist.render($list);
+    // destroy history view
+    hist.unrender();
+
+    // present current result
+    var node = gen_node(query, result);
+    $(node).find(".result").toggleClass("result-active");
+    var list = document.getElementById("list-container");
+    list.appendChild(node);
+
+    hist.histView = false;
 };
