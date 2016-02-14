@@ -7,30 +7,10 @@ $(function(){
     var $window = $(window);
     var $bar = $(".bar");
 
-    // doesn't work, acquire dom dynamically
+    // doesn't work, has to acquire dom dynamically
     // var $list = $("#list-container");
     // hist.init($list);
 
-    // function doSearch(){
-    //     var query = $bar.val();
-    //     var url = "https://www.googleapis.com/customsearch/v1?q=" + encodeURI(query);
-    //     url += "&cx=" + CX + "&key=" + API_KEY;
-    //     if (DEBUG){
-    //         var data = googleAPISampleJSON;
-    //         console.log(data);
-    //         var firstEntry = data.items[0];
-    //         var message = firstEntry.snippet;
-    //         hist.add(query, message);
-               // change list-container to hist-list-container
-    //         var $list = $("#list-container");
-    //         hist.render($list);
-    //     }
-    //     else{
-    //         $.get(url, function(data){
-    //             console.log(data);
-    //         });
-    //     }
-    // }
 
     // Keyboard events
     $window.keydown(function (event) {
