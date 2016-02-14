@@ -31,8 +31,21 @@ function gen_node(entry, result) {
     result_node.classList.add("result");
     result_node.innerHTML = hist.cache[entry];
 
+    // for 'readmore' and 'comment' button
+    var minimenu_node = document.createElement("div");
+    minimenu_node.classList.add("minimenu");
+    // var readmore_node = document.createElement("span");
+    // readmore_node.classList.add("icon-readmore");
+    // var comment_node = document.createElement("span");
+    // comment_node.classList.add("icon-comment");
+    // minimenu_node.appendChild(readmore_node, comment_node);
+    minimenu_node.innerHTML =
+        '<span class="icon-readmore"><i class="fa fa-share" ></i> </span>' +
+        '<span class="icon-comment "><i class="fa fa-comment"></i></span>'
+
     node.appendChild(entry_node);
     node.appendChild(result_node);
+    node.appendChild(minimenu_node);
 
     return node;
 }
@@ -42,7 +55,7 @@ function gen_node(entry, result) {
 var API_KEY = "AIzaSyAe0ReD5igVVJFmDMJKHCAOU3nRHT4E2As";
 var API_CX = "011043985394505284497%3A04toexks_gs";
 var API_BASEURL = "https://www.googleapis.com/customsearch/v1?q=";
-var DEBUG = false;
+var DEBUG = true;
 
 
 /**************************
