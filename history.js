@@ -1,4 +1,3 @@
-
 /*
  * ****** HELPER FUNCTION ******
  */
@@ -43,7 +42,7 @@ function gen_node(entry, result) {
 var API_KEY = "AIzaSyAe0ReD5igVVJFmDMJKHCAOU3nRHT4E2As";
 var API_CX = "011043985394505284497%3A04toexks_gs";
 var API_BASEURL = "https://www.googleapis.com/customsearch/v1?q=";
-var DEBUG = true;
+var DEBUG = false;
 
 
 /**************************
@@ -81,32 +80,12 @@ hist.unrender = function() {
 hist.render = function() {
     hist.unrender();
     var list = document.getElementById("list-container");
-
     entries = Object.keys(hist.cache);
     entries.sort();
     entries.forEach(function (query) {
-
-        // var hist_div = document.createElement('div');
-
-        // var entry_node = document.createElement("div");
-        // entry_node.innerHTML = entry;
-        // var entry_attr = document.createAttribute("class");
-        // entry_attr.value = "entry";
-        // entry_node.setAttributeNode(entry_attr);
-
-        // var result_node = document.createElement("div");
-        // result_node.innerHTML = hist.cache[entry];
-        // var result_attr = document.createAttribute("class");
-        // result_attr.value = "result";
-        // result_node.setAttributeNode(result_attr);
-
-        // hist_div.appendChild(entry_node);
-        // hist_div.appendChild(result_node);
-
         var hist_div = gen_node(query, hist.cache[query]);
         list.appendChild(hist_div);
     });
-
     hist.histView = true;
 };
 
@@ -116,13 +95,14 @@ hist.render = function() {
  * background handling of query,
  * not intended as public hist interface
  */
-hist.search = function(query) {
+hist.search = function(query, callback) {
     query = format(query);
     var result;
 
     if (query in hist.cache) {
         // cached result
         result = hist.cache[query];
+        callback(query, result);
     }
     else {
         // new search and cache result
@@ -133,7 +113,9 @@ hist.search = function(query) {
             // var firstEntry = data.items[0];
             // result is in the first entry
             result = data.items[0].snippet;
-        }
+            hist.add(query, result);
+            callback(query, result);
+         }
         else {
             // normal search
             var url = API_BASEURL + encodeURI(query) + "&cx=" + API_CX + "&key=" + API_KEY;
@@ -141,31 +123,31 @@ hist.search = function(query) {
                 console.log(data);
                 // result is in the first entry
                 result = data.items[0].snippet;
+                hist.add(query, result);
+                callback(query, result);
             });
         }
 
         // cache result
-        hist.add(query, result);
     }
 
-    return result;
 };
 
 /**
  * do search and hide history view and present current search result
  */
-hist.doSearch = function(query) {
-    query = format(query);
-    var result = hist.search(query);
-
+hist.processResult = function(query, result){
     // destroy history view
     hist.unrender();
-
     // present current result
     var node = gen_node(query, result);
     $(node).find(".result").toggleClass("result-active");
     var list = document.getElementById("list-container");
     list.appendChild(node);
-
     hist.histView = false;
+};
+
+hist.doSearch = function(query) {
+    query = format(query);
+    hist.search(query, hist.processResult);
 };
