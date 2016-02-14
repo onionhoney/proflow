@@ -4,7 +4,7 @@ $(function(){
     // Initialize variables
     var $window = $(window);
     var $bar = $(".bar");
-
+    
     // Keyboard events
     $window.keydown(function (event) {
         // Auto-focus the bar

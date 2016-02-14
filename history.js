@@ -55,12 +55,27 @@ var hist = {};
 hist.histView = true;
 hist.cache = {};
 
+hist.init = function(){
+    chrome.storage.sync.get("hist_cache", function(item){
+       console.log("Successfully retrieved item ", item);
+       this.cache = item; 
+    });
+};
+
+hist.saveChanges = function(){
+    chrome.storage.sync.set({'hist_cache': this.cache}, function(){
+        console.log('Settings saved');
+    });
+};
+
 hist.add = function(entry, result) {
     this.cache[format(entry)] = result.trim();
+    this.saveChanges();
 };
 
 hist.del = function(entry) {
     delete this.cache[format(entry)];
+    this.saveChanges();
 };
 
 hist.unrender = function() {
